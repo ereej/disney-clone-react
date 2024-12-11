@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { auth, provider } from "../firebase";
+import { signInWithPopup, signOut } from 'firebase/auth';
 import {
   selectUserName,
   selectUserPhoto,
@@ -10,50 +11,61 @@ import {
   setSignOutState,
 } from "../features/users/userSlice";
 
-const Header = (props: any) => {
+const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
+  const setUser = useCallback(
+    (user: { displayName: any; email: any; photoURL: any; }) => {
+      dispatch(
+        setUserLoginDetails({
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        })
+      );
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
-    auth.onAuthStateChanged(async (user: any) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user: any) => {
       if (user) {
         setUser(user);
         navigate("/home");
       }
     });
-  }, [userName]);
+
+    return unsubscribe; // Cleanup on component unmount
+  }, [navigate, setUser]);
 
   const handleAuth = () => {
+    console.log("Current userName:", userName);
+
     if (!userName) {
-      auth
-        .signInWithPopup(provider)
-        .then((result: { user: any; }) => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log("User signed in:", result.user);
           setUser(result.user);
         })
-        .catch((error: { message: any; }) => {
+        .catch((error) => {
+          console.error("Sign-in error:", error.message);
           alert(error.message);
         });
-    } else if (userName) {
-      auth
-        .signOut()
+    } else {
+      signOut(auth)
         .then(() => {
+          console.log("User signed out");
           dispatch(setSignOutState());
           navigate("/");
         })
-        .catch((err: { message: any; }) => alert(err.message));
+        .catch((error) => {
+          console.error("Sign-out error:", error.message);
+          alert(error.message);
+        });
     }
-  };
-
-  const setUser = (user: { displayName: any; email: any; photoURL: any; }) => {
-    dispatch(
-      setUserLoginDetails({
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-      })
-    );
   };
 
   return (
@@ -92,19 +104,12 @@ const Header = (props: any) => {
               <span>SERIES</span>
             </a>
           </NavMenu>
-          {
-            /* 
-            <>
-                <SignOut>
-                <UserImg src={userPhoto} alt={userName} />
-                <DropDown>
-                    <span onClick={handleAuth}>Sign out</span>
-                </DropDown>
-                </SignOut>
-            </>
-            */
-            }
-
+          <SignOut>
+            <UserImg src={userPhoto} alt={userName} />
+            <DropDown>
+              <span onClick={handleAuth}>Sign out</span>
+            </DropDown>
+          </SignOut>
         </>
       )}
     </Nav>
