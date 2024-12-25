@@ -16,7 +16,7 @@ I used Typescript
 - Work with styled-components.
 
 ### Website Being Cloned: DisneyPlus Official website.
-Credits go to https://www.youtube.com/watch?v=R_OERlafbmw&list=PL-J2q3Ga50oMQa1JdSJxYoZELwOJAXExP
+Credits go to https://www.youtube.com/watch?v=R_OERlafbmw&list=PL-J2q3Ga50oMQa1JdSJxYoZELwOJAXExP 🙏
 
 ---
 
