@@ -31,3 +31,11 @@ Credits go to https://www.youtube.com/watch?v=R_OERlafbmw&list=PL-J2q3Ga50oMQa1J
 - **Redux**: State management library for predictable application state.
 
 ---
+
+## Future Improvements
+
+- Continuously upgrade the codebase, add personalized enhancements, and implement further optimizations:
+  > Add advanced interactivity.
+  > Implement animations for smoother transitions.
+  > Add unit tests for components.
+  > Optimize performance for faster loading times.
