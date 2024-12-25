@@ -35,7 +35,7 @@ Credits go to https://www.youtube.com/watch?v=R_OERlafbmw&list=PL-J2q3Ga50oMQa1J
 ## Future Improvements
 
 - Continuously upgrade the codebase, add personalized enhancements, and implement further optimizations:
-  > Add advanced interactivity.
-  > Implement animations for smoother transitions.
-  > Add unit tests for components.
-  > Optimize performance for faster loading times.
+  > Add advanced interactivity. <br>
+  > Implement animations for smoother transitions. <br>
+  > Add unit tests for components. <br>
+  > Optimize performance for faster loading times. <br>
